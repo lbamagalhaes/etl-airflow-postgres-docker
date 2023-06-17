@@ -17,10 +17,10 @@ x-airflow-common:
     AIRFLOW_HOME: /opt/airflow
     _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-}
   volumes:
-    - ./dags:/opt/airflow/dags
-    - ./logs:/opt/airflow/logs
-    - ./plugins:/opt/airflow/plugins
-    - ./data:/opt/airflow/data
+    - ./airflow/dags:/opt/airflow/dags
+    - ./airflow/logs:/opt/airflow/logs
+    - ./airflow/plugins:/opt/airflow/plugins
+    - ./airflow/data:/opt/airflow/data
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
     &airflow-common-depends-on
@@ -40,14 +40,12 @@ services:
       - 5431:5432
     volumes:
       - ./postgres/init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
-      - ./postgres-volume:/var/lib/postgresql/data
+      - ./postgres/postgres-volume:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "airflow"]
       interval: 5s
       retries: 5
     restart: always
-    networks:
-      - backend
 
   redis:
     image: redis:latest
@@ -59,8 +57,6 @@ services:
       timeout: 30s
       retries: 50
     restart: always
-    networks:
-      - backend
 
   airflow-webserver:
     <<: *airflow-common
@@ -77,8 +73,6 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
-    networks:
-      - backend
 
   airflow-scheduler:
     <<: *airflow-common
@@ -93,8 +87,6 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
-    networks:
-      - backend
 
   airflow-worker:
     <<: *airflow-common
@@ -114,8 +106,6 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
-    networks:
-      - backend
 
   airflow-triggerer:
     <<: *airflow-common
@@ -130,8 +120,6 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
-    networks:
-      - backend
 
   airflow-init:
     <<: *airflow-common
@@ -195,9 +183,8 @@ services:
           echo "   https://airflow.apache.org/docs/apache-airflow/stable/howto/docker-compose/index.html#before-you-begin"
           echo
         fi
-        mkdir -p /sources/logs /sources/dags /sources/plugins
-        chown -R "${AIRFLOW_UID}:0" /sources/{logs,dags,plugins}
-        chmod u+rwx /docker-entrypoint-initdb.d/docker_postgres_init.sql
+        mkdir -p /sources/logs /sources/dags /sources/plugins /sources/data
+        chown -R "${AIRFLOW_UID}:0" /sources/{logs,dags,plugins,data}
         exec /entrypoint airflow version
     environment:
       <<: *airflow-common-env
@@ -209,8 +196,6 @@ services:
     user: "0:0"
     volumes:
       - .:/sources
-    networks:
-      - backend
 
   airflow-cli:
     <<: *airflow-common
@@ -223,8 +208,6 @@ services:
       - bash
       - -c
       - airflow
-    networks:
-      - backend
   
   flower:
     <<: *airflow-common
@@ -243,12 +226,11 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
-    networks:
-      - backend
 
-volumes:   
-    postgres-volume:
-
-networks:
-  backend:
-    driver: bridge
+volumes:
+  postgres-volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./postgres/postgres-volume
