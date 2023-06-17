@@ -3,18 +3,9 @@ version: '3'
 x-airflow-common:
   &airflow-common
   image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:2.4.1}
+  env_file:
+    - .env
   environment:
-    &airflow-common-env
-    AIRFLOW__CORE__EXECUTOR: CeleryExecutor
-    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
-    AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
-    AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow@postgres/airflow
-    AIRFLOW__CELERY__BROKER_URL: redis://:@redis:6379/0
-    AIRFLOW__CORE__FERNET_KEY: ''
-    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
-    AIRFLOW__CORE__LOAD_EXAMPLES: 'true'
-    AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth, airflow.api.auth.backend.session'
-    AIRFLOW_HOME: /opt/airflow
     _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-}
   volumes:
     - ./airflow/dags:/opt/airflow/dags
@@ -32,10 +23,8 @@ x-airflow-common:
 services:
   postgres:
     image: postgres:13
-    environment:
-      POSTGRES_USER: airflow
-      POSTGRES_PASSWORD: airflow
-      POSTGRES_DB: airflow
+    env_file:
+      - .env
     ports:
       - 5431:5432
     volumes:
@@ -49,6 +38,8 @@ services:
 
   redis:
     image: redis:latest
+    env_file:
+      - .env
     expose:
       - 6379
     healthcheck:
@@ -61,6 +52,8 @@ services:
   airflow-webserver:
     <<: *airflow-common
     command: webserver
+    env_file:
+      - .env
     ports:
       - 8080:8080
     healthcheck:
@@ -73,10 +66,13 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+    
 
   airflow-scheduler:
     <<: *airflow-common
     command: scheduler
+    env_file:
+      - .env
     healthcheck:
       test: ["CMD-SHELL", 'airflow jobs check --job-type SchedulerJob --hostname "$${HOSTNAME}"']
       interval: 10s
@@ -91,6 +87,8 @@ services:
   airflow-worker:
     <<: *airflow-common
     command: celery worker
+    env_file:
+      - .env
     healthcheck:
       test:
         - "CMD-SHELL"
@@ -98,9 +96,6 @@ services:
       interval: 10s
       timeout: 10s
       retries: 5
-    environment:
-      <<: *airflow-common-env
-      DUMB_INIT_SETSID: "0"
     restart: always
     depends_on:
       <<: *airflow-common-depends-on
@@ -110,6 +105,8 @@ services:
   airflow-triggerer:
     <<: *airflow-common
     command: triggerer
+    env_file:
+      - .env
     healthcheck:
       test: ["CMD-SHELL", 'airflow jobs check --job-type TriggererJob --hostname "$${HOSTNAME}"']
       interval: 10s
@@ -186,24 +183,20 @@ services:
         mkdir -p /sources/logs /sources/dags /sources/plugins /sources/data
         chown -R "${AIRFLOW_UID}:0" /sources/{logs,dags,plugins,data}
         exec /entrypoint airflow version
+    env_file:
+      - .env
     environment:
-      <<: *airflow-common-env
-      _AIRFLOW_DB_UPGRADE: 'true'
-      _AIRFLOW_WWW_USER_CREATE: 'true'
-      _AIRFLOW_WWW_USER_USERNAME: ${_AIRFLOW_WWW_USER_USERNAME:-airflow}
-      _AIRFLOW_WWW_USER_PASSWORD: ${_AIRFLOW_WWW_USER_PASSWORD:-airflow}
       _PIP_ADDITIONAL_REQUIREMENTS: ''
     user: "0:0"
     volumes:
-      - .:/sources
+      - ./airflow:/sources
 
   airflow-cli:
     <<: *airflow-common
     profiles:
       - debug
-    environment:
-      <<: *airflow-common-env
-      CONNECTION_CHECK_MAX_COUNT: "0"
+    env_file:
+      - .env 
     command:
       - bash
       - -c
@@ -212,6 +205,8 @@ services:
   flower:
     <<: *airflow-common
     command: celery flower
+    env_file:
+      - .env 
     profiles:
       - flower
     ports:
