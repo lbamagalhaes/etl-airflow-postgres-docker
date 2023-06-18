@@ -5,3 +5,4 @@ pandas
 astronomer-cosmos[dbt.all]
 dbt-core
 dbt-postgres
+alpha_vantage
