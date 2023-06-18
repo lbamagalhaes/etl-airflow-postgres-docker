@@ -9,6 +9,8 @@ from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from airflow.hooks.postgres_hook import PostgresHook
 
+from cosmos.providers.dbt.task_group import DbtTaskGroup
+
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.abspath(os.path.join(script_dir, os.pardir))
@@ -36,13 +38,6 @@ logging.basicConfig(
     filename=log_file_name
 )
 
-dag = DAG(
-    'load_csv_to_postgres',
-    default_args=default_args,
-    description='Load CSV data into Postgres table',
-    schedule_interval=timedelta(days=1),
-)
-
 def load_csv_to_postgres():
     logging.info("Starting load_csv_to_postgres task")
     pg_hook = PostgresHook(postgres_conn_id='postgres')
@@ -53,8 +48,27 @@ def load_csv_to_postgres():
     df.to_sql('my_table', pg_hook.get_sqlalchemy_engine(), if_exists='append', index=False)
     logging.info("Data written to Postgres successfully")
 
-load_csv_task = PythonOperator(
-    task_id='load_csv_to_postgres',
-    python_callable=load_csv_to_postgres,
-    dag=dag,
-)
+
+with DAG(
+    'load_csv_to_postgres',
+    default_args=default_args,
+    description='Load CSV data into Postgres table',
+    schedule_interval=None,
+) as dag:
+
+
+    load_csv_task = PythonOperator(
+        task_id='load_csv_to_postgres',
+        python_callable=load_csv_to_postgres
+    )
+
+    calculate_avg = DbtTaskGroup(
+            dbt_root_path="/opt/dbt",
+            dbt_project_name="airflow",
+            conn_id="postgres",
+            profile_args={
+                "schema": "public",
+            },
+        )
+
+load_csv_task >> calculate_avg
