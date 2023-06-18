@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: average_age
+    description: "Calculates the average age of the persons"
+    columns:
+      - name: avg_age
+        description: "The average age of the persons"
+        tests:
+          - not_null
