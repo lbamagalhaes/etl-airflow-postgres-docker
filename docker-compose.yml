@@ -144,4 +144,13 @@ services:
     volumes:
       - .pgadmin/pgadmin-data:/var/lib/pgadmin
     
+  metabase:
+    image: metabase/metabase 
+    ports:
+      - 3000:3000 
+    volumes:
+      - ./metabase/metabase-data:/metabase-data  
+    env_file:
+      - .env
+    restart: always 
     
