@@ -1,18 +1,57 @@
-## ETL Data Pipeline Architechture using Airflow with PostgreSQL, Redis and DBT dependencies.
+## Project Description
+- This repository contains the code and configuration files for the Airflow workflow management system. The system utilizes several key services, each serving a specific purpose within the workflow orchestration process:
 
-This repository contains the source code and configuration files for the project.
-The project utilizes Docker Compose to set up a containerized environment for running Airflow with PostgreSQL, Redis and DBT dependencies.
+### PostgreSQL
+- PostgreSQL is used as the backend database for Airflow. It stores metadata related to workflows, task states, execution logs, and other relevant information.
+
+### pgAdmin
+- pgAdmin is an administration and development tool used to manage the PostgreSQL database. It provides a graphical interface for tasks such as querying the database, configuring settings, monitoring performance, and managing users.
+
+### Redis
+- Redis is an in-memory data structure store used as a message broker in the Airflow setup. It facilitates the exchange of messages between different components of Airflow.
+
+### Celery
+- Celery is a distributed task queue system used as the task execution engine in Airflow. It allows for the asynchronous and parallel execution of tasks across multiple workers. Celery workers retrieve tasks from the task queue and execute them independently.
+
+### Airflow
+- Airflow is an open-source platform for orchestrating and managing workflows. It allows users to define, schedule, and monitor workflows as Directed Acyclic Graphs (DAGs). Airflow comprises several key components:
+
+### Airflow Scheduler
+- The Airflow Scheduler is responsible for determining when tasks should be executed based on their dependencies and schedules. It interacts with the Airflow database and message broker to trigger task execution.
+
+### Airflow Webserver
+- The Airflow Webserver provides a web-based user interface to monitor and control workflow executions. It fetches information from the Airflow database, such as DAG definitions, task states, and execution logs, to display the current status of workflows and tasks.
+
+### Airflow Worker
+- Airflow Workers are responsible for executing tasks. They retrieve tasks from the task queue (managed by Celery) and execute them independently. Workers communicate with the Airflow database and message broker to update task status and results.
+
+### Airflow Triggerer
+- The Airflow Triggerer is responsible for triggering workflow executions based on defined schedules or external events. It interacts with the Airflow Scheduler to initiate workflow runs.
+
+## Workflow Description
+- The Airflow Scheduler, running as part of the Airflow infrastructure, communicates with the Airflow database, Redis (message broker), and Celery to orchestrate task execution.
+
+- When a workflow is scheduled to run, the Airflow Scheduler adds task messages to the Celery task queue. These messages contain information about the tasks and their dependencies.
+
+- Celery workers, connected to the Celery task queue, retrieve task messages and execute tasks asynchronously. Workers communicate task progress, status updates, and results to Redis.
+
+- The Airflow Worker component listens to task updates in Redis, retrieves the information, and updates the Airflow database with task statuses and results.
+
+- The Airflow Webserver fetches data from the Airflow database to provide a graphical interface where users can monitor workflow execution, view task logs, and manage workflows.
+
+- The Airflow Triggerer component, based on predefined schedules or external triggers, communicates with the Airflow Scheduler to initiate workflow runs and trigger task execution.
+
+- PostgreSQL, as the backend database, stores and retrieves workflow metadata, task states, execution logs, and other relevant information.
+
+- pgAdmin provides a graphical interface to manage the PostgreSQL database, allowing administrators and developers to interact with the database, configure settings, and monitor performance.
 
 ### Prerequisites
-
 Before running the project, ensure that you have the following installed:
 
 - Docker
 - Docker Compose
-- pgAdmin
 
 ### Getting Started
-
 To get started with the project, follow these steps:
 
 1. Clone the repository:
@@ -57,9 +96,10 @@ To get started with the project, follow these steps:
    * Password: airflow
    * Port: 5432
 
-8. Connect pgAdmin to PostgresSQL:
+8. Access PostgresSQL through pdAdmin:
 
-* Create > Server Group...
+* [http://localhost:5050](http://localhost:5050/)
+
 * Register > Server...
 
    * Name: **choose a server name**
