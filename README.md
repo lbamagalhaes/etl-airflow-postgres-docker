@@ -48,7 +48,7 @@
 
 - pgAdmin provides a graphical interface to manage the PostgreSQL database, allowing administrators and developers to interact with the database, configure settings, and monitor performance.
 
-- Metabase, when integrated with PostgreSQL, can be used for visualizing and analyzing data related to workflow execution,
+- Metabase, when integrated with PostgreSQL, can be used for visualizing and analyzing data related to workflow execution.
 
 ### Prerequisites
 Before running the project, ensure that you have the following installed:
