@@ -19,11 +19,13 @@ To get started with the project, follow these steps:
 
    ```shell
    git clone [https://github.com/your-username/repository-name.git](https://github.com/lbamagalhaes/etl-airflow-postgres-docker.git)
+   ```
    
 2. Change into the project directory:
 
   ```shell
-  cd repository-name
+  cd etl-airflow-postgres-docker
+  ```
   
 3. Start Docker
   
@@ -31,11 +33,13 @@ To get started with the project, follow these steps:
 
    ```shell
    docker-compose up airflow-init
+   ```
 
 5. Build and start the containers:
 
    ```shell
    docker-compose up airflow-init
+   ```
 
 6. Access Airflow Web UI:
 
@@ -69,6 +73,7 @@ Password: airflow
 
 ```shell
 docker-compose down --volumes --rmi all
+```
 
 
 
