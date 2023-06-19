@@ -73,7 +73,7 @@ To get started with the project, follow these steps:
 
 6. Access Airflow Web UI:
 
-   `[http://localhost:8080](http://localhost:8080/)`
+   - [http://localhost:8080](http://localhost:8080/)
 
 7. Create a PostgresSQL connection in the Airflow Web UI:
 
@@ -89,7 +89,7 @@ To get started with the project, follow these steps:
 
 8. Access PostgresSQL through pdAdmin:
 
-   `[http://localhost:5050](http://localhost:5050/)`
+   - [http://localhost:5050](http://localhost:5050/)
 
    * Register > Server...
 
@@ -102,7 +102,7 @@ To get started with the project, follow these steps:
 
 9. Access Metabase through pdAdmin:
 
-   `[http://localhost:3000](http://localhost:3000/)`
+   - [http://localhost:3000](http://localhost:3000/)
 
    * Login
 
