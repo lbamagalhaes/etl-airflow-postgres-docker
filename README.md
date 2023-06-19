@@ -18,17 +18,17 @@
 ### Airflow
    `Airflow` is an open-source platform for orchestrating and managing workflows. It allows users to define, schedule, and monitor workflows as Directed Acyclic Graphs (DAGs). Airflow comprises several key components:
 
-   ##### Airflow Scheduler
-      The `Airflow Scheduler` is responsible for determining when tasks should be executed based on their dependencies and schedules. It interacts with the Airflow database and message broker to trigger task execution.
+##### Airflow Scheduler
+   The `Airflow Scheduler` is responsible for determining when tasks should be executed based on their dependencies and schedules. It interacts with the Airflow database and message broker to trigger task execution.
 
-   ##### Airflow Webserver
-      The `Airflow Webserver` provides a web-based user interface to monitor and control workflow executions. It fetches information from the Airflow database, such as DAG definitions, task states, and execution logs, to display the current status of workflows and tasks.
+##### Airflow Webserver
+   The `Airflow Webserver` provides a web-based user interface to monitor and control workflow executions. It fetches information from the Airflow database, such as DAG definitions, task states, and execution logs, to display the current status of workflows and tasks.
 
-   ##### Airflow Worker
-      `Airflow Workers` are responsible for executing tasks. They retrieve tasks from the task queue (managed by Celery) and execute them independently. Workers communicate with the Airflow database and message broker to update task status and results.
+##### Airflow Worker
+   `Airflow Workers` are responsible for executing tasks. They retrieve tasks from the task queue (managed by Celery) and execute them independently. Workers communicate with the Airflow database and message broker to update task status and results.
 
-   ##### Airflow Triggerer
-      The `Airflow Triggerer` is responsible for triggering workflow executions based on defined schedules or external events. It interacts with the Airflow Scheduler to initiate workflow runs.
+##### Airflow Triggerer
+   The *`Airflow Triggerer` is responsible for triggering workflow executions based on defined schedules or external events. It interacts with the Airflow Scheduler to initiate workflow runs.
 
 ### Metabase
    `Metabase` is an open-source business intelligence tool used for visualizing and analyzing data. It can be integrated with Airflow to provide insights and reports on workflow execution, task performance, and other relevant metrics.
@@ -73,42 +73,42 @@ To get started with the project, follow these steps:
 
 6. Access Airflow Web UI:
 
-* `[http://localhost:8080](http://localhost:8080/)`
+   `[http://localhost:8080](http://localhost:8080/)`
 
 7. Create a PostgresSQL connection in the Airflow Web UI:
 
-* Admin > Connections > Add a New Record
+   * Admin > Connections > Add a New Record
 
-   * `Connection Id:` postgres
-   * `Connection Type:` postgres
-   * `Host:` postgres
-   * `Schema:` postgres
-   * `Login:` airflow
-   * `Password:` airflow
-   * `Port:` 5432
+      * `Connection Id:` postgres
+      * `Connection Type:` postgres
+      * `Host:` postgres
+      * `Schema:` postgres
+      * `Login:` airflow
+      * `Password:` airflow
+      * `Port:` 5432
 
 8. Access PostgresSQL through pdAdmin:
 
    `[http://localhost:5050](http://localhost:5050/)`
 
-* Register > Server...
+   * Register > Server...
 
-   * `Name:` ## choose a server name ##
-   * `Host:` postgres
-   * `Port:` 5432
-   * `Maintenance database:` airflow
-   * `Login:` airflow
-   * `Password:` airflow
+      * `Name:` ## choose a server name ##
+      * `Host:` postgres
+      * `Port:` 5432
+      * `Maintenance database:` airflow
+      * `Login:` airflow
+      * `Password:` airflow
 
 9. Access Metabase through pdAdmin:
 
    `[http://localhost:3000](http://localhost:3000/)`
 
-   * `Host:` postgres
-   * `Port:` 5432
-   * `Maintenance database:` airflow
-   * `Login:` airflow
-   * `Password:` airflow
+      * `Host:` postgres
+      * `Port:` 5432
+      * `Maintenance database:` airflow
+      * `Login:` airflow
+      * `Password:` airflow
 
 10. For shutting down the container:
 
