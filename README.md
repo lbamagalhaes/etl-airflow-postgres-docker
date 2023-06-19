@@ -32,16 +32,16 @@ To get started with the project, follow these steps:
    ```shell
    docker-compose up airflow-init
 
-4. Build and start the containers:
+5. Build and start the containers:
 
    ```shell
    docker-compose up airflow-init
 
-5. Access Airflow Web UI:
+6. Access Airflow Web UI:
 
 [http://localhost:8080](http://localhost:8080/)
 
-6. Create a PostgresSQL connection in the Airflow Web UI:
+7. Create a PostgresSQL connection in the Airflow Web UI:
 
 Admin > Connections > Add a New Record
 
@@ -53,7 +53,7 @@ Login: airflow
 Password: airflow
 Port: 5432
 
-6. Connect pgAdmin to PostgresSQL:
+8. Connect pgAdmin to PostgresSQL:
 
 Create > Server Group...
 Register > Server...
@@ -65,7 +65,7 @@ Maintenance database: airflow
 Login: airflow
 Password: airflow
 
-7. For shutting down the container:
+9. For shutting down the container:
 
 ```shell
 docker-compose down --volumes --rmi all
