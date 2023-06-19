@@ -1,7 +1,7 @@
-# Project Title
+# ETL Data Pipeline Architechture using Airflow with PostgreSQL, Redis and DBT dependencies.
 
 This repository contains the source code and configuration files for the project.
-The project utilizes Docker Compose to set up a containerized environment for running Airflow with PostgreSQ, Redis and DBT dependencies.
+The project utilizes Docker Compose to set up a containerized environment for running Airflow with PostgreSQL, Redis and DBT dependencies.
 
 ## Prerequisites
 
@@ -29,13 +29,13 @@ To get started with the project, follow these steps:
   
 4. Initiate airflow
 
-```shell
-docker-compose up airflow-init
+   ```shell
+   docker-compose up airflow-init
 
 4. Build and start the containers:
 
-```shell
-docker-compose up airflow-init
+   ```shell
+   docker-compose up airflow-init
 
 5. Access Airflow Web UI:
 
@@ -53,7 +53,7 @@ Login: airflow
 Password: airflow
 Port: 5432
 
-6.Connect pgAdmin to PostgresSQL:
+6. Connect pgAdmin to PostgresSQL:
 
 Create > Server Group...
 Register > Server...
