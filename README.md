@@ -104,6 +104,8 @@ To get started with the project, follow these steps:
 
    `[http://localhost:3000](http://localhost:3000/)`
 
+   * Login
+
       * `Host:` postgres
       * `Port:` 5432
       * `Maintenance database:` airflow
