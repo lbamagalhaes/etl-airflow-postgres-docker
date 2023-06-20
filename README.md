@@ -16,7 +16,7 @@
    `Celery` is a distributed task queue system used as the task execution engine in Airflow. It allows for the asynchronous and parallel execution of tasks across multiple workers. Celery workers retrieve tasks from the task queue and execute them independently.
 
 ### dbt (Data Build Tool)
-   'dbt (Data Build Tool)' is a command-line tool that enables data transformations and builds data models. It works in conjunction with Airflow and PostgreSQL to provide a comprehensive data pipeline solution. dbt allows you to define transformations and build data models using SQL.
+   `dbt (Data Build Tool)` is a command-line tool that enables data transformations and builds data models. It works in conjunction with Airflow and PostgreSQL to provide a comprehensive data pipeline solution. dbt allows you to define transformations and build data models using SQL.
 
 ### Airflow
    `Airflow` is an open-source platform for orchestrating and managing workflows. It allows users to define, schedule, and monitor workflows as Directed Acyclic Graphs (DAGs). Airflow comprises several key components:
