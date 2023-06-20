@@ -7,8 +7,6 @@ x-airflow-common:
     dockerfile: ./airflow/Dockerfile.airflow
   env_file:
     - .env
-  environment:
-    _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-}
   volumes:
     - ./airflow/dags:/opt/airflow/dags
     - ./airflow/logs:/opt/airflow/logs
