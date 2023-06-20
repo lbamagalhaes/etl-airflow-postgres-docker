@@ -34,7 +34,7 @@
    `Airflow Workers` are responsible for executing tasks. They retrieve tasks from the task queue (managed by Celery) and execute them independently. Workers communicate with the Airflow database and message broker to update task status and results.
 
 ##### Airflow Triggerer
-   The *`Airflow Triggerer` is responsible for triggering workflow executions based on defined schedules or external events. It interacts with the Airflow Scheduler to initiate workflow runs.
+   The `Airflow Triggerer` is responsible for triggering workflow executions based on defined schedules or external events. It interacts with the Airflow Scheduler to initiate workflow runs.
 
 ### Metabase
    `Metabase` is an open-source business intelligence tool used for visualizing and analyzing data. It can be integrated with Airflow to provide insights and reports on workflow execution, task performance, and other relevant metrics.
