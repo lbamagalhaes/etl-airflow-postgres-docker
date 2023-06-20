@@ -1,5 +1,8 @@
-## Project Description
-   This repository contains the code and configuration files for the Airflow workflow management system. The system utilizes several key services, each serving a specific purpose within the workflow orchestration process:
+## Project
+   This repository contains the code and configuration files for the Airflow workflow management system. The system utilizes several key services, each serving a specific purpose within the workflow orchestration process.
+
+## Architechture
+   The `Airflow Scheduler`, running as part of the `Airflow` infrastructure, communicates with the `Airflow` database, `Redis` (message broker), and `Celery` to orchestrate task execution. When a workflow is scheduled to run, the `Airflow Scheduler` adds task messages to the `Celery` task queue. These messages contain information about the tasks and their dependencies. `Celery` workers, connected to the `Celery` task queue, retrieve task messages and execute tasks asynchronously. Workers communicate task progress, status updates, and results to Redis. The `Airflow Worker` component listens to task updates in `Redis`, retrieves the information, and updates the Airflow database with task statuses and results. The project also includes a volume for `dbt`, which is a data build tool used for performing data transformations and building data models. The transformed data can be accessed and visualized using tools such as `Metabase`. The `Airflow Webserver` provides a graphical interface for monitoring workflow execution, while the Airflow Triggerer initiates workflow runs. `PostgreSQ`L, as the backend database, stores workflow metadata, while `pgAdmin` provides a graphical interface for managing the database.
 
 ## Services
 
@@ -16,7 +19,7 @@
    `Celery` is a distributed task queue system used as the task execution engine in Airflow. It allows for the asynchronous and parallel execution of tasks across multiple workers. Celery workers retrieve tasks from the task queue and execute them independently.
 
 ### dbt (Data Build Tool)
-   `dbt (Data Build Tool)` is a command-line tool that enables data transformations and builds data models. It works in conjunction with Airflow and PostgreSQL to provide a comprehensive data pipeline solution. dbt allows you to define transformations and build data models using SQL.
+   `dbt` (Data Build Tool) is implemented with Cosmos (Astronomer Cosmos), a platform that provides infrastructure and tooling for running dbt in a scalable and managed manner. Cosmos enables the execution of dbt jobs, which perform data transformations and build data models. dbt runs SQL templates to transform and prepare data for analysis.
 
 ### Airflow
    `Airflow` is an open-source platform for orchestrating and managing workflows. It allows users to define, schedule, and monitor workflows as Directed Acyclic Graphs (DAGs). Airflow comprises several key components:
@@ -35,9 +38,6 @@
 
 ### Metabase
    `Metabase` is an open-source business intelligence tool used for visualizing and analyzing data. It can be integrated with Airflow to provide insights and reports on workflow execution, task performance, and other relevant metrics.
-
-## Workflow Description
-   The `Airflow Scheduler`, running as part of the Airflow infrastructure, communicates with the Airflow database, `Redis` (message broker), and `Celery` to orchestrate task execution. When a workflow is scheduled to run, the `Airflow Scheduler` adds task messages to the `Celery` task queue. These messages contain information about the tasks and their dependencies. `Celery` workers, connected to the `Celery` task queue, retrieve task messages and execute tasks asynchronously. Workers communicate task progress, status updates, and results to Redis. The `Airflow Worker` component listens to task updates in `Redis`, retrieves the information, and updates the `Airflow` database with task statuses and results. The `Airflow Webserver` fetches data from the Airflow database to provide a graphical interface where users can monitor workflow execution, view task logs, and manage workflows. The `Airflow Triggerer` component, based on predefined schedules or external triggers, communicates with the `Airflow Scheduler` to initiate workflow runs and trigger task execution. `PostgreSQL`, as the backend database, stores and retrieves workflow metadata, task states, execution logs, and other relevant information. pgAdmin provides a graphical interface to manage the `PostgreSQL` database, allowing administrators and developers to interact with the database, configure settings, and monitor performance. When integrated with `PostgreSQL` and `dbt`, `Metabase` can be used for visualizing and analyzing data related to workflow execution and transformed data models.
 
 ## Prerequisites
 Before running the project, ensure that you have the following installed:
