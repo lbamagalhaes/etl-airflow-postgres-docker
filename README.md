@@ -1,7 +1,7 @@
 ## Project
    This repository contains the code and configuration files for the Airflow workflow management system. The system utilizes several key services, each serving a specific purpose within the workflow orchestration process.
 
-## Architechture
+## Architecture
    The `Airflow Scheduler`, running as part of the `Airflow` infrastructure, communicates with the `Airflow` database, `Redis` (message broker), and `Celery` to orchestrate task execution. When a workflow is scheduled to run, the `Airflow Scheduler` adds task messages to the `Celery` task queue. These messages contain information about the tasks and their dependencies. `Celery` workers, connected to the `Celery` task queue, retrieve task messages and execute tasks asynchronously. Workers communicate task progress, status updates, and results to Redis. The `Airflow Worker` component listens to task updates in `Redis`, retrieves the information, and updates the Airflow database with task statuses and results. The project also includes a volume for `dbt`, which is a data build tool used for performing data transformations and building data models. The transformed data can be accessed and visualized using tools such as `Metabase`. The `Airflow Webserver` provides a graphical interface for monitoring workflow execution, while the Airflow Triggerer initiates workflow runs. `PostgreSQL`, as the backend database, stores workflow metadata, while `pgAdmin` provides a graphical interface for managing the database.
 
 ## Services
